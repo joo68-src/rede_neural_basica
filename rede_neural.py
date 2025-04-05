@@ -32,6 +32,8 @@ classificador.add(Dense(units=1, activation='sigmoid'))
 # Compilando a rede
 classificador.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
+# PRÉ-PROCESSAMENTO DAS IMAGENS
+
 from tensorflow.keras.preprocessing.image import ImageDataGenerator # type: ignore
 
 dados_treino = ImageDataGenerator(rescale = 1./255, 
@@ -51,3 +53,10 @@ elem_valid = dados_valid.flow_from_directory('/Users/jaolucena/Downloads/program
                                              batch_size = 32,
                                              class_mode = 'binary')
 
+# TREINAMENTO DA REDE
+
+classificador.fit_generator(dados_treino, 
+                            steps_per_epoch = 8000,
+                            epochs = 5,
+                            dados_valid = elem_valid,
+                            validation_steps = 2000)
